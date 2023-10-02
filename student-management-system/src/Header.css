@@ -1,0 +1,13 @@
+.container{
+    background-color: lightblue;
+    border-color: blue;
+    align-content: flex-start;
+    display: flex;
+    height: 50px;
+    width: 100%;
+    
+
+}
+h3{
+    margin: 10px;
+}
