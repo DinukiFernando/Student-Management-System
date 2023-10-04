@@ -2,6 +2,7 @@ import './App.css';
 import { Table, Input, notification, Button, Drawer } from 'antd';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Header from './Header';
 
 function App() {
   const [data, setData] = useState([]); // State to hold the student data
@@ -179,6 +180,7 @@ function App() {
 
   return (
     <div className="App">
+      <Header/>
       <div className='upper-container'>
         <h5>Student ID</h5>
         <Input
