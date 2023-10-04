@@ -64,13 +64,27 @@
   margin: 5px;
 }
 
-/* #table{
+#table{
+  align-items: center;
   margin: 10px;
-  width: 100%;
 
-} */
+}
 #table-container{
   display: flex;
   align-items: center;
   margin: 10px;
 }
+
+.btn-grp{
+  width: 80px;
+
+}
+
+#btn-save{
+  margin: 5px;
+}
+/* span{
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+} */
