@@ -77,8 +77,7 @@ function App() {
 
   useEffect(() => {
     // Fetch data from the Mocky API
-    // fetch('https://run.mocky.io/v3/8120c0b1-ce00-45ff-b18a-03c710949ef0')
-    fetch('http://localhost:3000/students')
+    fetch('https://run.mocky.io/v3/8120c0b1-ce00-45ff-b18a-03c710949ef0')
       .then((response) => response.json())
       .then((result) => {
         setData(result.student);
