@@ -75,18 +75,18 @@ function App() {
     },
   ]);
 
-  // useEffect(() => {
-  //   // Fetch data from the Mocky API
-  //   // fetch('https://run.mocky.io/v3/8120c0b1-ce00-45ff-b18a-03c710949ef0')
-  //   fetch('http://localhost:3000/students')
-  //     .then((response) => response.json())
-  //     .then((result) => {
-  //       setData(result.student);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching data:', error);
-  //     });
-  // }, []);
+  useEffect(() => {
+    // Fetch data from the Mocky API
+    // fetch('https://run.mocky.io/v3/8120c0b1-ce00-45ff-b18a-03c710949ef0')
+    fetch('http://localhost:3000/students')
+      .then((response) => response.json())
+      .then((result) => {
+        setData(result.student);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
 
   // useEffect(() => {
   //   // Fetch data from the Mockoon API
@@ -101,16 +101,16 @@ function App() {
   // }, []);
   
 
-  useEffect(() => {
-    // Fetch data using Axios
-    axios.get('http://localhost:3000/students')
-      .then((response) => {
-        setData(response.data.student);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   // Fetch data using Axios
+  //   axios.get('http://localhost:3000/students')
+  //     .then((response) => {
+  //       setData(response.data.student);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching data:', error);
+  //     });
+  // }, []);
 
   const openNotification = (placement, message, description) => {
     notification.info({
