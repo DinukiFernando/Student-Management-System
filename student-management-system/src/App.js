@@ -1,5 +1,5 @@
 import './App.css';
-import { Table, Input, notification, Button, Drawer } from 'antd';
+import { Table, Input, notification, Button, Drawer, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from './Header';
@@ -76,21 +76,9 @@ function App() {
     },
   ]);
 
-  useEffect(() => {
-    // Fetch data from the Mocky API
-    fetch('https://run.mocky.io/v3/8120c0b1-ce00-45ff-b18a-03c710949ef0')
-      .then((response) => response.json())
-      .then((result) => {
-        setData(result.student);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
-
   // useEffect(() => {
-  //   // Fetch data from the Mockoon API
-  //   fetch('http://localhost:3000/students')
+  //   // Fetch data from the Mocky API
+  //   fetch('https://run.mocky.io/v3/8120c0b1-ce00-45ff-b18a-03c710949ef0')
   //     .then((response) => response.json())
   //     .then((result) => {
   //       setData(result.student);
@@ -99,18 +87,19 @@ function App() {
   //       console.error('Error fetching data:', error);
   //     });
   // }, []);
-  
 
-  // useEffect(() => {
-  //   // Fetch data using Axios
-  //   axios.get('http://localhost:3000/students')
-  //     .then((response) => {
-  //       setData(response.data.student);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching data:', error);
-  //     });
-  // }, []);
+  useEffect(() => {
+    // Fetch data from the Mockoon API
+    fetch('http://localhost:3002/students')
+      .then((response) => response.json())
+      .then((result) => {
+        setData(result.student);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+  
 
   const openNotification = (placement, message, description) => {
     notification.info({
@@ -125,8 +114,6 @@ function App() {
     setData((pre)=>{
       return pre.filter((s) => s.id !== student.id);
     });
-    // const updatedData = data.filter((s) => s.id !== student.id);
-    // setData(updatedData);
   };
 
   const applyFilter = () => {
@@ -177,6 +164,117 @@ function App() {
   const openAddDrawer = () => {
     setIsAddDrawerVisible(true);
   };
+
+  const addStudent = () => {
+    // Create a new student object with the data from the state variables
+    const newStudent = {
+      id: newStudentId,
+      firstName: newFirstName,
+      lastName: newLastName,
+      birthday: newBirthday,
+      gender: newGender,
+      mobileNumber: newMobileNumber,
+      address: newAddress,
+      guardianName: newGuardianName,
+      guardianContactNumber: newGuardianContactNumber,
+      otherDetails: newOtherDetails,
+    };
+  
+    // Send a POST request to the '/students' endpoint with the new student data
+    axios
+      .post('http://localhost:3002/students', newStudent)
+      .then((response) => {
+        setNewStudentId('');
+        setNewFirstName('');
+        setNewLastName('');
+        setNewBirthday('');
+        setNewGender('');
+        setNewMobileNumber('');
+        setNewAddress('');
+        setNewGuardianName('');
+        setNewGuardianContactNumber('');
+        setNewOtherDetails('');
+
+        // Log the data sent successfully and the response from the API
+      console.log('Data Sent Successfully:', newStudent);
+      console.log('API Response:', response.data);
+  
+        // Show a success notification
+        openNotification(
+          'topRight',
+          'Student Added',
+          'The student has been successfully added.'
+        );
+      })
+      .catch((error) => {
+        // Handle errors if the POST request fails
+        console.error('Error adding student:', error);
+  
+        // Show an error notification
+        openNotification(
+          'topRight',
+          'Error Adding Student',
+          'There was an error adding the student. Please try again.'
+        );
+      });
+  };
+
+
+
+  const editStudent = () => {
+    // Create a new student object with the data from the state variables
+    const editStudent = {
+      id: editedStudentId,
+      firstName: editedName,
+      lastName: editedName,
+      birthday: editedBirthday,
+      gender: editedGender,
+      mobileNumber: editedMobileNumber,
+      address: editedAddress,
+      guardianName: editedGuardianName,
+      guardianContactNumber: editedGuardianContactNumber,
+      otherDetails: editedOtherDetails,
+    };
+  
+    // Send a POST request to the '/students' endpoint with the new student data
+    axios
+      .post('http://localhost:3002/students', editStudent)
+      .then((response) => {
+        setEditedStudentId('');
+        setEditedName('');
+        setEditedName('');
+        setEditedBirthday('');
+        setEditedGender('');
+        setEditedMobileNumber('');
+        setEditedAddress('');
+        setEditedGuardianName('');
+        setEditedGuardianContactNumber('');
+        setEditedOtherDetails('');
+
+        // Log the data sent successfully and the response from the API
+      console.log('Data Sent Successfully:', editStudent);
+      console.log('API Response:', response.data);
+  
+        // Show a success notification
+        openNotification(
+          'topRight',
+          'Student edited',
+          'The student has been successfully edited.'
+        );
+      })
+      .catch((error) => {
+        // Handle errors if the POST request fails
+        console.error('Error adding student:', error);
+  
+        // Show an error notification
+        openNotification(
+          'topRight',
+          'Error edditing Student',
+          'There was an error edditing the student. Please try again.'
+        );
+      });
+  };
+  
 
   return (
     <div className="App">
@@ -230,7 +328,17 @@ function App() {
             <p><b>Birthday</b></p>
             <Input placeholder="Enter Birthday" value={editedBirthday} onChange={(e) => setEditedBirthday(e.target.value)} /><br/>
             <p><b>Gender</b></p>
-            <Input placeholder="Enter Gender" value={editedGender} onChange={(e) => setEditedGender(e.target.value)} /><br/>
+            <Select
+              placeholder="Select Gender"
+              value={editedGender}
+              onChange={(value) => setEditedGender(value)}
+              style={{ width: '100%' }}
+            >
+              <Select.Option value="Male">Male</Select.Option>
+              <Select.Option value="Female">Female</Select.Option>
+            </Select>
+            <br/>
+
             <p><b>Mobile Number</b></p>
             <Input placeholder="Enter Mobile Number" value={editedMobileNumber} onChange={(e) => setEditedMobileNumber(e.target.value)} /><br/>
             <p><b>Address</b></p>
@@ -241,7 +349,7 @@ function App() {
             <Input placeholder="Enter Guardian Contact Number" value={editedGuardianContactNumber} onChange={(e) => setEditedGuardianContactNumber(e.target.value)} /><br/>
             <p><b>Other Details</b></p>
             <Input placeholder="Enter Other Details" value={editedOtherDetails} onChange={(e) => setEditedOtherDetails(e.target.value)} /><br/>
-            <Button type="primary" id='btn-save'> Save</Button>
+            <Button type="primary" id='btn-save' onClick={editStudent}wo> Save</Button>
           </div>
         )}
       </Drawer>
@@ -286,7 +394,17 @@ function App() {
           <p><b>Birthday</b></p>
           <Input placeholder="Enter Birthday" value={newBirthday} onChange={(e) => setNewBirthday(e.target.value)} /><br/>
           <p><b>Gender</b></p>
-          <Input placeholder="Enter Gender" value={newGender} onChange={(e) => setNewGender(e.target.value)} /><br/>
+         
+          <Select
+              placeholder="Select Gender"
+              value={newGender}
+              onChange={(value) => setNewGender(value)}
+              style={{ width: '100%' }}
+            >
+              <Select.Option value="Male">Male</Select.Option>
+              <Select.Option value="Female">Female</Select.Option>
+            </Select>
+            <br/>
           <p><b>Mobile Number</b></p>
           <Input placeholder="Enter Mobile Number" value={newMobileNumber} onChange={(e) => setNewMobileNumber(e.target.value)} /><br/>
           <p><b>Address</b></p>
@@ -297,7 +415,7 @@ function App() {
           <Input placeholder="Enter Guardian Contact Number" value={newGuardianContactNumber} onChange={(e) => setNewGuardianContactNumber(e.target.value)} /><br/>
           <p><b>Other Details</b></p>
           <Input placeholder="Enter Other Details" value={newOtherDetails} onChange={(e) => setNewOtherDetails(e.target.value)} /><br/>
-          <Button type="primary" id='btn-save'> Save</Button>
+          <Button type="primary" id='btn-save' onClick={addStudent}> Save</Button>
         </div>
       </Drawer>
 
